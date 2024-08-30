@@ -3,9 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth, provider } from '../services/firebase';
+import { useCart } from '../context/CartContext'; // Import useCart hook
+import { FaShoppingCart } from 'react-icons/fa'; // Import cart icon from React Icons
 
 const NavigationBar = () => {
   const [user, setUser] = useState(null);
+  const { cartItems } = useCart(); // Destructure cartItems from useCart
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -58,15 +61,25 @@ const NavigationBar = () => {
           </div>
 
           {/* Secondary Nav */}
-          <div className="hidden md:flex items-center space-x-1">
-            {user ? (
+          <div className="hidden md:flex items-center space-x-4">
+            {user && (
               <>
                 <span className="text-gray-200 py-2 px-3">Welcome, {user.displayName}</span>
+                {/* Cart Icon with Item Count */}
+                <Link to="/cart" className="relative text-gray-200 hover:text-main-yellow">
+                  <FaShoppingCart size={24} />
+                  {cartItems.length > 0 && (
+                    <span className="absolute top-0 right-0 inline-block w-4 h-4 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </Link>
                 <button onClick={handleSignOut} className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-400">
                   Sign Out
                 </button>
               </>
-            ) : (
+            )}
+            {!user && (
               <button onClick={handleSignIn} className="py-2 px-3 bg-main-yellow text-black rounded hover:bg-yellow-500">
                 Sign in with Google
               </button>
@@ -92,9 +105,15 @@ const NavigationBar = () => {
         <Link to="/contact" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">Contact</Link>
         <Link to="/policies" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">Policies</Link>
         {user ? (
-          <button onClick={handleSignOut} className="block py-2 px-4 text-sm bg-red-500 text-white rounded hover:bg-red-400">
-            Sign Out
-          </button>
+          <>
+            {/* Mobile Cart Icon */}
+            <Link to="/cart" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">
+              Cart ({cartItems.length})
+            </Link>
+            <button onClick={handleSignOut} className="block py-2 px-4 text-sm bg-red-500 text-white rounded hover:bg-red-400">
+              Sign Out
+            </button>
+          </>
         ) : (
           <button onClick={handleSignIn} className="block py-2 px-4 text-sm bg-main-yellow text-black rounded hover:bg-yellow-500">
             Sign in with Google
