@@ -1,8 +1,40 @@
 // src/components/NavigationBar.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth, provider } from '../services/firebase';
 
 const NavigationBar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log('User signed in:', result.user);
+      })
+      .catch((error) => {
+        console.error('Error during sign-in:', error);
+      });
+  };
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log('User signed out');
+      })
+      .catch((error) => {
+        console.error('Error during sign-out:', error);
+      });
+  };
+
   return (
     <nav className="bg-black shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
@@ -11,11 +43,7 @@ const NavigationBar = () => {
             {/* Logo */}
             <div>
               <Link to="/" className="flex items-center py-5 px-2 text-gray-700 hover:text-logo-yellow">
-                <img
-                  src="/images/logo-navigationbar.png"
-                  alt="EatUp Logo"
-                  className="h-14 w-24 mr-2 transition-transform duration-300 hover:scale-110" /* Added animation classes */
-                />
+                <img src="/images/logo-navigationbar.png" alt="EatUp Logo" className="h-14 w-24 mr-2 transition-transform duration-300 hover:scale-110" />
               </Link>
             </div>
 
@@ -31,8 +59,18 @@ const NavigationBar = () => {
 
           {/* Secondary Nav */}
           <div className="hidden md:flex items-center space-x-1">
-            <Link to="/signin" className="py-2 px-3 bg-logo-yellow text-white rounded hover:text-gray-700">Sign In</Link>
-            <Link to="/signup" className="py-2 px-3 bg-gray-700 text-white rounded hover:text-main-yellow">Sign Up</Link>
+            {user ? (
+              <>
+                <span className="text-gray-200 py-2 px-3">Welcome, {user.displayName}</span>
+                <button onClick={handleSignOut} className="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-400">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button onClick={handleSignIn} className="py-2 px-3 bg-main-yellow text-black rounded hover:bg-yellow-500">
+                Sign in with Google
+              </button>
+            )}
           </div>
 
           {/* Mobile Button */}
@@ -53,6 +91,15 @@ const NavigationBar = () => {
         <Link to="/order" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">Order</Link>
         <Link to="/contact" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">Contact</Link>
         <Link to="/policies" className="block py-2 px-4 text-sm text-gray-200 hover:text-main-yellow">Policies</Link>
+        {user ? (
+          <button onClick={handleSignOut} className="block py-2 px-4 text-sm bg-red-500 text-white rounded hover:bg-red-400">
+            Sign Out
+          </button>
+        ) : (
+          <button onClick={handleSignIn} className="block py-2 px-4 text-sm bg-main-yellow text-black rounded hover:bg-yellow-500">
+            Sign in with Google
+          </button>
+        )}
       </div>
     </nav>
   );
