@@ -1,3 +1,6 @@
+The site is deployed with firebase and can be checked out here: https://eatupdb-b32a5.web.app/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
