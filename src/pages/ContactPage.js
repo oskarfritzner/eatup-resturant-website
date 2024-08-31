@@ -119,7 +119,7 @@ const ContactPage = () => {
               </form>
             </div>
 
-            {/* Contact Information */}
+            {/* Contact Informatioan */}
             <div className="bg-white p-8 shadow-lg rounded-lg">
               <h3 className="text-2xl font-bold text-gray-800 mb-6">Contact Information</h3>
               <p className="text-gray-600 mb-4">
