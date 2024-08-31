@@ -54,9 +54,8 @@ const NavigationBar = () => {
             <div className="hidden md:flex items-center space-x-1">
               <Link to="/" className="py-5 px-3 text-gray-200 hover:text-main-yellow">Home</Link>
               <Link to="/menu" className="py-5 px-3 text-gray-200 hover:text-main-yellow">Menu</Link>
-              <Link to="/order" className="py-5 px-3 text-gray-200 hover:text-main-yellow">Order</Link>
               <Link to="/contact" className="py-5 px-3 text-gray-200 hover:text-main-yellow">Contact</Link>
-              <Link to="/policies" className="py-5 px-3 text-gray-200 hover:text-main-yellow">Policies</Link>
+              <Link to="/book" className='py-5 px-3 text-gray-200 hover:text-main-yellow'>Book Table</Link>
             </div>
           </div>
 

@@ -2,14 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../services/firebase';
-import { useCart } from '../context/CartContext'; // Import useCart hook
-import { getAuth } from 'firebase/auth'; // Import getAuth
+import { useCart } from '../context/CartContext';
+import { getAuth } from 'firebase/auth';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FaCartPlus } from 'react-icons/fa'; // Import a shopping cart icon
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart(); // Destructure addToCart from useCart
-  const auth = getAuth(); // Initialize Firebase Auth
+  const { addToCart } = useCart();
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -31,13 +35,27 @@ const MenuPage = () => {
   const handleOrder = (item) => {
     const user = auth.currentUser;
     if (user) {
-      // User is logged in
       addToCart(item);
-      alert(`${item.name} added to your cart!`);
+      toast.success(
+        <div className="flex items-center">
+          <FaCartPlus className="text-green-500 mr-2" /> {/* Add shopping cart icon */}
+          <span>{`${item.name} added to your cart!`}</span>
+        </div>,
+        {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+          className: "toast-custom-style", // Add custom class for further customization
+        }
+      );
     } else {
-      // User is not logged in
       alert('Please log in to add items to your cart.');
-      window.location.href = '/login'; // Redirect to login page
+      window.location.href = '/menu';
     }
   };
 
@@ -47,6 +65,7 @@ const MenuPage = () => {
 
   return (
     <div className="menu-page">
+      <ToastContainer />
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-semibold text-center text-gray-800">Our Menu</h2>
@@ -59,7 +78,7 @@ const MenuPage = () => {
                   <p className="mt-2 text-gray-700">{item.description}</p>
                   <p className="mt-2 text-gray-800 font-bold">${item.price}</p>
                   <button
-                    onClick={() => handleOrder(item)} // Add "Order" button
+                    onClick={() => handleOrder(item)}
                     className="mt-4 bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition duration-300"
                   >
                     Order

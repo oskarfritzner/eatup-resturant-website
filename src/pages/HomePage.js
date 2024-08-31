@@ -20,7 +20,7 @@ const HomePage = () => {
       </section>
 
       {/* Introduction Section */}
-      <section className="py-20 bg-main-yellow">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-semibold text-gray-800">Why Choose EatUp?</h2>
           <p className="mt-4 text-gray-700">EatUp is committed to delivering the freshest and most delicious meals straight to your door. Our chefs use only the best ingredients to create meals that are not only tasty but also healthy. Experience the convenience of dining at home with the quality of a gourmet restaurant.</p>

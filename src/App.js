@@ -7,12 +7,13 @@ import { CartProvider } from './context/CartContext';
 import HomePage from './pages/HomePage';
 import ContactPage from './pages/ContactPage';
 import MenuPage from './pages/MenuPage';
-import OrderPage from './pages/OrderPage';
 import PoliciesPage from './pages/PoliciesPage';
 import CartPage from './pages/CartPage'; // Import CartPage
+import BookTable from './pages/BookTable';
 
 // Import components
 import NavigationBar from './components/NavigationBar';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   return (
@@ -20,12 +21,13 @@ const App = () => {
       {/* Wrap application in CartProvider */}
       <Router>
         <div className="App">
+          <ToastContainer />
           <NavigationBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/menu" element={<MenuPage />} />
-            <Route path="/order" element={<OrderPage />} />
+            <Route path="/book" element={<BookTable />} />
             <Route path="/policies" element={<PoliciesPage />} />
             <Route path="/cart" element={<CartPage />} /> {/* Add CartPage route */}
           </Routes>
