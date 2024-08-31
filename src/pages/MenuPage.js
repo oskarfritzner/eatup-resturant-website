@@ -54,8 +54,17 @@ const MenuPage = () => {
         }
       );
     } else {
-      alert('Please log in to add items to your cart.');
-      window.location.href = '/menu';
+      toast.error("Please log in to add items to your cart.", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+        className: "toast-custom-style", // Add custom class for further customization
+      });
     }
   };
 
