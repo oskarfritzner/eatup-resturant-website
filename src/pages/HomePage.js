@@ -67,7 +67,7 @@ const HomePage = () => {
       <section className="py-20 bg-main-yellow">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-semibold text-black">Ready to Taste the Best?</h2>
-          <Link to="/order" className="mt-8 inline-block bg-black text-white font-semibold py-3 px-6 rounded-full hover:bg-gray-800 transition duration-300">
+          <Link to="/menu" className="mt-8 inline-block bg-black text-white font-semibold py-3 px-6 rounded-full hover:bg-gray-800 transition duration-300">
             Place Your Order
           </Link>
         </div>
